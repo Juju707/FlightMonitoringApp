@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+                                                   android:background="@drawable/main_background"
+                                                   android:layout_height="match_parent">
+
+    <TextView
+            android:text="@string/repeat_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView8" android:textSize="18sp"
+            android:fontFamily="@font/alegreya" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/txt_password"/>
+    <TextView
+            android:layout_width="199dp"
+            android:layout_height="40dp"
+            android:id="@+id/txt_username" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" android:fontFamily="@font/alegreya"
+            android:textAlignment="center" app:layout_constraintHorizontal_bias="0.509" android:textSize="18sp"
+            android:layout_marginTop="16dp" app:layout_constraintTop_toBottomOf="@+id/textView9"/>
+    <EditText
+            android:layout_width="203dp"
+            android:layout_height="43dp"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/txt_password"
+            android:fontFamily="@font/alegreya" android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/textView7" android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="8dp"
+            app:layout_constraintStart_toStartOf="parent"/>
+    <EditText
+            android:layout_width="196dp"
+            android:layout_height="47dp"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/txt_password2"
+            android:fontFamily="@font/alegreya" android:textAlignment="center" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.497"
+            android:layout_marginTop="20dp" app:layout_constraintTop_toBottomOf="@+id/textView8"/>
+    <TextView
+            android:text="@string/enter_your_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView9" android:textSize="18sp"
+            android:fontFamily="@font/alegreya" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginTop="112dp"
+            app:layout_constraintTop_toTopOf="parent"/>
+    <Button
+            android:text="@string/sign_in"
+            android:layout_width="137dp"
+            android:layout_height="55dp"
+            android:textAllCaps="false"
+            android:background="@drawable/button_background"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/button" android:layout_marginBottom="196dp" app:layout_constraintBottom_toBottomOf="parent"
+            android:fontFamily="@font/alegreya" android:textSize="24sp" app:layout_constraintHorizontal_bias="0.467"/>
+    <TextView
+            android:text="@string/enter_your_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView7" android:textSize="18sp"
+            android:fontFamily="@font/alegreya" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/txt_username" app:layout_constraintHorizontal_bias="0.503"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

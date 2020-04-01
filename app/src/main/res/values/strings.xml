@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">SkyNetApp</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="log_in">Log In</string>
+    <string name="username">Username</string>
+    <string name="opensky_logo">OpenSky_Logo</string>
+    <string name="welcome">Welcome!</string>
+    <string name="what_do_you_wish_to_check">What do you wish to check?</string>
+    <string name="check_flights_nearby">Check flights nearby</string>
+    <string name="get_flights_from_the_airport">Get flights from the airport</string>
+    <string name="displaying_list_of_planes_in_bounding_box_declared_as">Displaying list of planes in bounding box
+        declared as:
+    </string>
+    <string name="country">Country</string>
+    <string name="state">State</string>
+    <string name="aiport">Aiport</string>
+    <string name="date">Date</string>
+    <string name="search">Search</string>
+    <string name="last_searches">Last searches:</string>
+    <string name="showing_flights_for">Showing flights for:</string>
+    <string name="enter_your_password">Enter your password:</string>
+    <string name="enter_your_username">Enter your username:</string>
+    <string name="repeat_password">Repeat password:</string>
+</resources>
