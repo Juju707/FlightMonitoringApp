@@ -8,7 +8,10 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.jujulad.skynetapp.AirportFlights.PickAirportActivity
+import com.jujulad.skynetapp.httpRequest.FlightsNearbyActivity
 import com.jujulad.skynetapp.login.LoginActivity
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,11 +32,11 @@ class MainActivity : AppCompatActivity() {
         val nearby = findViewById<Button>(R.id.btn_nearby)
 
         byAirport.setOnClickListener {
-            val intent = Intent(this, PickairportActivity::class.java)
+            val intent = Intent(this, PickAirportActivity::class.java)
             startActivity(intent)
         }
         nearby.setOnClickListener {
-            val intent = Intent(this, FlightsnearbyActivity::class.java)
+            val intent = Intent(this, FlightsNearbyActivity::class.java)
             startActivity(intent)
             finish()
         }

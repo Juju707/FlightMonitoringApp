@@ -22,9 +22,9 @@
         </activity>
         <activity android:name=".login.LoginActivity"/>
         <activity android:name=".login.SigninActivity"/>
-        <activity android:name=".FlightsbyairportActivity"/>
-        <activity android:name=".FlightsnearbyActivity"/>
-        <activity android:name=".PickairportActivity"/>
+        <activity android:name=".AirportFlights.FlightsByAirportActivity"/>
+        <activity android:name=".httpRequest.FlightsNearbyActivity"/>
+        <activity android:name=".AirportFlights.PickAirportActivity"/>
         <meta-data android:name="preloaded_fonts" android:resource="@array/preloaded_fonts"/>
     </application>
 </manifest>

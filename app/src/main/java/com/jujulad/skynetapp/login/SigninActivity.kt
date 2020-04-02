@@ -45,7 +45,7 @@ class SigninActivity : AppCompatActivity() {
                                         "password" to password
                                     )
                                 ).addOnSuccessListener {
-                                    Log.d(TAG, "Succes!")
+                                    Log.d(TAG, "Success!")
                                     val intent = Intent(this, MainActivity::class.java)
                                     startActivity(intent)
                                     finish()
