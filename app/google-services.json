@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "283416194998",
+    "firebase_url": "https://flightmonitoringapp.firebaseio.com",
+    "project_id": "flightmonitoringapp",
+    "storage_bucket": "flightmonitoringapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:283416194998:android:7a06d34a73413e6ecd5b17",
+        "android_client_info": {
+          "package_name": "com.jujulad.skynetapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "283416194998-9fj4ftp6fj9ogp33icp7o290odl6u7ok.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWHvY7gvNnxpwNhB5-DF_JW77Vkfl5FUw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "283416194998-9fj4ftp6fj9ogp33icp7o290odl6u7ok.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
