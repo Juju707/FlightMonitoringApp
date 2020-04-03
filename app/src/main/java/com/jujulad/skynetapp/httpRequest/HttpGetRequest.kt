@@ -107,7 +107,8 @@ fun getJSONflightData(vararg values: String?): MutableList<FlightData> {
             row.getJSONObject("airline").getString("name"),
             row.getJSONObject("live").getDouble("latitude"),
             row.getJSONObject("live").getDouble("longitude"),
-            row.getJSONObject("live").getBoolean("is_ground")
+            row.getJSONObject("live").getBoolean("is_ground"),
+            row.getJSONObject("aircraft").getString("iata")
         )
         flights.add(flight)
 

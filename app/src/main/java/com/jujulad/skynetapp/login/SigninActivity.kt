@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.FirebaseFirestore
 import com.jujulad.skynetapp.MainActivity
 import com.jujulad.skynetapp.R
+import com.jujulad.skynetapp.dataclasses.Flight
 
 class SigninActivity : AppCompatActivity() {
 
@@ -41,8 +42,8 @@ class SigninActivity : AppCompatActivity() {
                                 getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putString("user", key).apply()
                                 db.collection("users").document(key).set(
                                     mapOf(
-                                        "flights" to mapOf<String, String>(),
-                                        "password" to password
+                                        "password" to password,
+                                        "flights" to mutableListOf<Flight>()
                                     )
                                 ).addOnSuccessListener {
                                     Log.d(TAG, "Success!")

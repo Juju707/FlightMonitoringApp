@@ -14,5 +14,18 @@ data class FlightData(
     val airline: String,
     val lat: Double? = null,
     val lon: Double? = null,
-    val is_ground: Boolean? = null
+    val is_ground: Boolean? = null,
+    val aircraft: String? = null
 )
+
+data class Flight(
+    val aircraft: String,
+    val dep_airport: String,
+    val arr_airport: String,
+    val lat: Double,
+    val lon: Double,
+    val seen: MutableList<String>
+) {
+    override fun toString(): String =
+        "$aircraft; $dep_airport -> $arr_airport; $lat,$lon; seen: ${seen.size}"
+}
