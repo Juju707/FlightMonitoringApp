@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.jujulad.skynetapp.airportFlights.PickAirportActivity
-import com.jujulad.skynetapp.httpRequest.FlightsNearbyActivity
+import com.jujulad.skynetapp.flightnearby.FlightsNearbyActivity
 import com.jujulad.skynetapp.login.LoginActivity
 
 
@@ -18,8 +18,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        grantPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
-        grantPermission(Manifest.permission.INTERNET)
+
+
         val previouslyStarted = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
             .getBoolean("isFirstRun", true)
         if (previouslyStarted) {
@@ -28,7 +28,12 @@ class MainActivity : AppCompatActivity() {
                 .putBoolean("isFirstRun", false).apply()
         }
 
-        val byAirport = findViewById<Button>(R.id.btn_airports)
+        grantPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+        grantPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+        grantPermission(Manifest.permission.INTERNET)
+
+
+        val byAirport = findViewById<Button>(R.id.btn_search)
         val nearby = findViewById<Button>(R.id.btn_nearby)
 
         byAirport.setOnClickListener {
@@ -38,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         nearby.setOnClickListener {
             val intent = Intent(this, FlightsNearbyActivity::class.java)
             startActivity(intent)
-            finish()
+
         }
     }
 
@@ -49,17 +54,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun grantPermission(permission: String) {
-        if (ContextCompat.checkSelfPermission(
-                this,
-                permission
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(permission),
-                1
-            )
+        if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(permission), 1)
         }
     }
+
 
 }

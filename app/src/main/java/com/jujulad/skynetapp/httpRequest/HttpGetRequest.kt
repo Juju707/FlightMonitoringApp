@@ -1,7 +1,7 @@
 package com.jujulad.skynetapp.httpRequest
 
 import android.os.AsyncTask
-import com.jujulad.skynetapp.dataclasses.flightData
+import com.jujulad.skynetapp.dataclasses.FlightData
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStream
@@ -10,22 +10,25 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 
-class HttpGetRequest : AsyncTask<String, String, String>() {
+class HttpGetRequest(
+    private val afterAction: (r: HttpGetRequest) -> Unit = {}
+) : AsyncTask<String, String, String>() {
 
-    private var flights= mutableListOf<flightData>()
+    var flights = mutableListOf<FlightData>()
 
     override fun doInBackground(vararg urls: String?): String? {
         var urlConnection: HttpURLConnection? = null
+
         try {
             val url = URL(urls[0])
             urlConnection = url.openConnection() as HttpURLConnection
             urlConnection.connectTimeout = 10000
             urlConnection.readTimeout = 100000
 
-            var inString = streamToString(urlConnection.inputStream)
+            val inString = streamToString(urlConnection.inputStream)
             publishProgress(inString)
         } catch (ex: Exception) {
-
+            ex.printStackTrace()
         } finally {
             urlConnection?.disconnect()
         }
@@ -35,18 +38,18 @@ class HttpGetRequest : AsyncTask<String, String, String>() {
 
     override fun onProgressUpdate(vararg result: String?) {
         try {
-                flights=getJSONflightData(*result)
+            flights = getJSONflightData(*result)
 
         } catch (ex: Exception) {
-
+            ex.printStackTrace()
         }
     }
 
     override fun onPostExecute(result: String?) {
-        // Useless
+        afterAction.invoke(this)
     }
 
-    fun getFlightsList():MutableList<flightData>{
+    fun getFlightsList(): MutableList<FlightData> {
         return flights
     }
 
@@ -65,20 +68,47 @@ fun streamToString(inputStream: InputStream): String {
             }
         } while (line != null)
         inputStream.close()
-    } catch (ex: Exception) { }
+    } catch (ex: Exception) {
+    }
     return result
 }
 
-fun getJSONflightData(vararg values: String?):MutableList<flightData>{
-    var json = JSONObject(values[0])
-    var flights= mutableListOf<flightData>()
+fun getJSONflightData(vararg values: String?): MutableList<FlightData> {
+    val json = JSONObject(values[0])
+    val flights = mutableListOf<FlightData>()
     val array = json.getJSONArray("data")
     for (i in 0 until array.length()) {
         val row = JSONObject(array.get(i).toString())
-        var flight=flightData(row.getString("flight_date"),row.getString("flight_status"),row.getJSONObject("departure").getString("airport"),
-            row.getJSONObject("departure").getString("iata"),row.getJSONObject("departure").getString("icao"),row.getJSONObject("departure").getString("estimated"),
-            row.getJSONObject("arrival").getString("airport"), row.getJSONObject("arrival").getString("iata"),row.getJSONObject("arrival").getString("icao"),
-            row.getJSONObject("arrival").getString("estimated"),row.getJSONObject("airline").getString("name"))
+        val flight = if (row.getString("live") == "null")
+            FlightData(
+                row.getString("flight_date"),
+                row.getString("flight_status"),
+                row.getJSONObject("departure").getString("airport"),
+                row.getJSONObject("departure").getString("iata"),
+                row.getJSONObject("departure").getString("icao"),
+                row.getJSONObject("departure").getString("estimated"),
+                row.getJSONObject("arrival").getString("airport"),
+                row.getJSONObject("arrival").getString("iata"),
+                row.getJSONObject("arrival").getString("icao"),
+                row.getJSONObject("arrival").getString("estimated"),
+                row.getJSONObject("airline").getString("name")
+            )
+        else FlightData(
+            row.getString("flight_date"),
+            row.getString("flight_status"),
+            row.getJSONObject("departure").getString("airport"),
+            row.getJSONObject("departure").getString("iata"),
+            row.getJSONObject("departure").getString("icao"),
+            row.getJSONObject("departure").getString("estimated"),
+            row.getJSONObject("arrival").getString("airport"),
+            row.getJSONObject("arrival").getString("iata"),
+            row.getJSONObject("arrival").getString("icao"),
+            row.getJSONObject("arrival").getString("estimated"),
+            row.getJSONObject("airline").getString("name"),
+            row.getJSONObject("live").getDouble("latitude"),
+            row.getJSONObject("live").getDouble("longitude"),
+            row.getJSONObject("live").getBoolean("is_ground")
+        )
         flights.add(flight)
 
     }
