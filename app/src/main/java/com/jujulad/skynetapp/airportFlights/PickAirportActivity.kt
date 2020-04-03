@@ -34,10 +34,9 @@ class PickAirportActivity : AppCompatActivity() {
         setContentView(R.layout.activity_pickairport)
         var task=AsyncTaskRunner()
         task.execute()
-        getHistoryList()
-        updateList(historyList)
         val history =
             (getSharedPreferences("PREFERENCE", MODE_PRIVATE).getString("history", "") ?: "").split(";").toMutableList()
+        updateList(history)
         val atxt = findViewById<AutoCompleteTextView>(R.id.atxt_aiport)
         val search = findViewById<Button>(R.id.btn_search)
         val hislist = findViewById<ListView>(R.id.scview_lastairports)
@@ -56,11 +55,12 @@ class PickAirportActivity : AppCompatActivity() {
         atxt.setOnItemClickListener { parent,view,position,id->
             separateData(parent.getItemAtPosition(position).toString())
             updateHistory(parent.getItemAtPosition(position).toString(),historyList )
+            println("guh "+choiceList.size)
         }
 
     }
     private fun getDepList(r: HttpGetRequest) {
-        bundle.putSerializable("departures",r.getFlightsList() as Serializable)
+        //bundle.putSerializable("departures",r.getFlightsList() as Serializable)
         val t2 = HttpGetRequest{ getArrList(it)}
         var url = "http://api.aviationstack.com/v1/flights?access_key=a2130ee26fddacb7c83f29e0f0f33c68&arr_icao=$airporticao"
         t2.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,url)
@@ -68,26 +68,17 @@ class PickAirportActivity : AppCompatActivity() {
 
     }
     private fun getArrList(r: HttpGetRequest) {
-        print(r.getFlightsList()[0])
-        bundle.putSerializable("arrivals",r.getFlightsList() as Serializable)
-        val intent = Intent(this, FlightsByAirportActivity::class.java)
+        //bundle.putSerializable("arrivals",r.getFlightsList() as Serializable)
+        val intent = Intent(this, FlightsByAirport::class.java)
         intent.putExtras(bundle)
         startActivity(intent)
     }
-    private fun getHistoryList(){
-        val user = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getString("user", "") ?: ""
-        db.collection("users").document(user).get()
-            .addOnSuccessListener { doc ->
-                historyList = doc["history"] as MutableList<String>
-            }
 
-    }
     private fun updateList(flights: MutableList<String>) {
         val list = findViewById<ListView>(R.id.scview_lastairports)
         val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, flights)
         list.adapter = adapter
     }
-
 
     private fun updateHistory(newRecord: String, historyList: MutableList<String>) {
         historyList.add(0, newRecord)
@@ -105,14 +96,15 @@ class PickAirportActivity : AppCompatActivity() {
         }
         airporticao=icaoList[idx]
     }
-    private fun setAdapter(){
+    private fun setAdapter(list:MutableList<String>){
         val airport = findViewById<AutoCompleteTextView>(R.id.atxt_aiport)
-        println(choiceList.size)
         val adapter = AutoSuggestAdapter(
             this@PickAirportActivity,
             android.R.layout.simple_list_item_1,
-            choiceList
+            list
         )
+        choiceList=list
+        println("guhuhu "+choiceList.size)
         airport.setAdapter(adapter)
         airport.threshold = 2
 
@@ -142,8 +134,7 @@ class PickAirportActivity : AppCompatActivity() {
                 list.add("${airport.country},${airport.city},${airport.name}")
                 icaoList.add(airport.icao)
             }
-            choiceList=list
-            setAdapter()
+                setAdapter(list)
         }
 
         override fun doInBackground(vararg p0: Void?): MutableList<airportData>{

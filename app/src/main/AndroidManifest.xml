@@ -15,10 +15,11 @@
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true">
         <activity
-                android:name=".FlightsByAirport"
+                android:name=".airportFlights.FlightsByAirport"
                 android:label="@string/title_activity_flights_by_airport"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
+
         <activity
                 android:name=".MainActivity"
                 android:theme="@style/Login">

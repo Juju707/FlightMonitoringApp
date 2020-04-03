@@ -29,7 +29,6 @@ class MainActivity : AppCompatActivity() {
         grantPermission(Manifest.permission.ACCESS_FINE_LOCATION)
         grantPermission(Manifest.permission.INTERNET)
 
-
         val byAirport = findViewById<Button>(R.id.btn_search)
         val nearby = findViewById<Button>(R.id.btn_nearby)
 

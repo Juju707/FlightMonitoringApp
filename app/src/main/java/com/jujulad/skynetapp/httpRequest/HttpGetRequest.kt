@@ -33,6 +33,7 @@ class HttpGetRequest(
             urlConnection?.disconnect()
         }
 
+
         return " "
     }
 
@@ -47,6 +48,11 @@ class HttpGetRequest(
 
     override fun onPostExecute(result: String?) {
         afterAction.invoke(this)
+        println(flights[0])
+    }
+
+    override fun onCancelled() {
+
     }
 
     fun getFlightsList(): MutableList<FlightData> {
