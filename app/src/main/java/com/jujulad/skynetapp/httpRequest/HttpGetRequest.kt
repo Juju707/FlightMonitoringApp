@@ -1,7 +1,7 @@
 package com.jujulad.skynetapp.httpRequest
 
 import android.os.AsyncTask
-import com.jujulad.skynetapp.dataClasses.flightData
+import com.jujulad.skynetapp.dataclasses.flightData
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStream

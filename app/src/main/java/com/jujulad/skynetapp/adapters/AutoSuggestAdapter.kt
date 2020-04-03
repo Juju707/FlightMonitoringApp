@@ -56,6 +56,7 @@ class AutoSuggestAdapter(
                 val filterResults = FilterResults()
                 filterResults.values = suggestions
                 filterResults.count = suggestions.size
+                println(filterResults)
                 filterResults
             } else {
                 FilterResults()
@@ -63,7 +64,7 @@ class AutoSuggestAdapter(
         }
 
         override fun publishResults(constraint: CharSequence, results: FilterResults) {
-            val filterList: List<String> =
+            var filterList: List<String> =
                 results.values as ArrayList<String>
             if (results != null && results.count > 0) {
                 clear()
