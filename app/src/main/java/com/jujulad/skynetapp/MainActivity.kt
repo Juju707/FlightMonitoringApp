@@ -8,7 +8,7 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.jujulad.skynetapp.AirportFlights.PickAirportActivity
+import com.jujulad.skynetapp.airportFlights.PickAirportActivity
 import com.jujulad.skynetapp.httpRequest.FlightsNearbyActivity
 import com.jujulad.skynetapp.login.LoginActivity
 
