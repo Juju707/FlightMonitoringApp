@@ -41,11 +41,11 @@ class AutoSuggestAdapter(
     }
 
     var nameFilter: Filter = object : Filter() {
-        override fun convertResultToString(resultValue: Any): CharSequence {
+        override fun convertResultToString(resultValue: Any?): CharSequence {
             return resultValue as String
         }
 
-        override fun performFiltering(constraint: CharSequence): FilterResults {
+        override fun performFiltering(constraint: CharSequence?): FilterResults {
             return if (constraint != null) {
                 suggestions.clear()
                 for (names in tempItems) {
@@ -63,9 +63,9 @@ class AutoSuggestAdapter(
             }
         }
 
-        override fun publishResults(constraint: CharSequence, results: FilterResults) {
-            var filterList: List<String> =
-                results.values as ArrayList<String>
+        override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+            val filterList: List<String> =
+                results?.values as ArrayList<String>? ?: arrayListOf()
             if (results != null && results.count > 0) {
                 clear()
                 for (item in filterList) {
@@ -74,6 +74,7 @@ class AutoSuggestAdapter(
                 }
             }
         }
+
     }
 
 

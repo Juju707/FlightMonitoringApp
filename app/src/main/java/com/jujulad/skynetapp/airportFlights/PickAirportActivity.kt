@@ -1,66 +1,93 @@
 package com.jujulad.skynetapp.airportFlights
 
 
+import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
+import android.util.Log
+import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
-import android.widget.ScrollView
+import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.FirebaseFirestore
 import com.jujulad.skynetapp.R
-import com.jujulad.skynetapp.adapters.Test
+import com.jujulad.skynetapp.adapters.AutoSuggestAdapter
+import com.jujulad.skynetapp.dataclasses.Flight
 import com.jujulad.skynetapp.dataclasses.airportData
 import com.jujulad.skynetapp.httpRequest.HttpGetRequest
 import org.json.JSONObject
+import java.io.Serializable
+import java.util.*
 
 
 class PickAirportActivity : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
     private var choiceList= mutableListOf<String>()
     private var icaoList= mutableListOf<String>()
-    private var airporticao="ZYYJ"
-
+    private var airporticao=""
+    private var historyList= mutableListOf<String>()
+    val bundle = Bundle()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pickairport)
-        val task=AsyncTaskRunner()
+        var task=AsyncTaskRunner()
         task.execute()
-        val thread= HttpGetRequest()
+        getHistoryList()
+        updateList(historyList)
         val history =
             (getSharedPreferences("PREFERENCE", MODE_PRIVATE).getString("history", "") ?: "").split(";").toMutableList()
-
+        val atxt = findViewById<AutoCompleteTextView>(R.id.atxt_aiport)
         val search = findViewById<Button>(R.id.btn_search)
-        //val hislist = findViewById<ScrollView>(R.id.scview_lastairports)
-
-        /// PIERDOLĘ TO
-        var choice = ""
+        val hislist = findViewById<ListView>(R.id.scview_lastairports)
 
         search.setOnClickListener {
-            //updateHistory(airport.text.toString(), history)
-
-            //Departures
-            //var url = "http://api.aviationstack.com/v1/flights?access_key=a2130ee26fddacb7c83f29e0f0f33c68&dep_iata=$airport"
-
-            //thread.execute(url)
-           // val departures=thread.getFlightsList()
-            //Arrivals
-            //url = "http://api.aviationstack.com/v1/flights?access_key=a2130ee26fddacb7c83f29e0f0f33c68&arr_iata=$airport"
-           // thread.execute(url)
-           // val arrivals=thread.getFlightsList()
-
-           // val bundle = Bundle()
-           // bundle.putSerializable("departures",departures as Serializable)
-            //bundle.putSerializable("arrivals",arrivals as Serializable)
-
-            //val intent = Intent(this, FlightsByAirportActivity::class.java)
-            //intent.putExtras(bundle)
-            //startActivity(intent)
+            if (airporticao!=""){
+                updateHistory(atxt.text.toString(), history)
+                airporticao="ZYYJ"
+                var thread= HttpGetRequest{getDepList(it)}
+                //Departures
+                var url = "http://api.aviationstack.com/v1/flights?access_key=a2130ee26fddacb7c83f29e0f0f33c68&dep_icao=$airporticao"
+                thread.execute(url)
+            }
         }
-        //hislist.setOnClickListener{
-        //}
+
+        atxt.setOnItemClickListener { parent,view,position,id->
+            separateData(parent.getItemAtPosition(position).toString())
+            updateHistory(parent.getItemAtPosition(position).toString(),historyList )
+        }
+
     }
+    private fun getDepList(r: HttpGetRequest) {
+        bundle.putSerializable("departures",r.getFlightsList() as Serializable)
+        val t2 = HttpGetRequest{ getArrList(it)}
+        var url = "http://api.aviationstack.com/v1/flights?access_key=a2130ee26fddacb7c83f29e0f0f33c68&arr_icao=$airporticao"
+        t2.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,url)
+
+
+    }
+    private fun getArrList(r: HttpGetRequest) {
+        print(r.getFlightsList()[0])
+        bundle.putSerializable("arrivals",r.getFlightsList() as Serializable)
+        val intent = Intent(this, FlightsByAirportActivity::class.java)
+        intent.putExtras(bundle)
+        startActivity(intent)
+    }
+    private fun getHistoryList(){
+        val user = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getString("user", "") ?: ""
+        db.collection("users").document(user).get()
+            .addOnSuccessListener { doc ->
+                historyList = doc["history"] as MutableList<String>
+            }
+
+    }
+    private fun updateList(flights: MutableList<String>) {
+        val list = findViewById<ListView>(R.id.scview_lastairports)
+        val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, flights)
+        list.adapter = adapter
+    }
+
 
     private fun updateHistory(newRecord: String, historyList: MutableList<String>) {
         historyList.add(0, newRecord)
@@ -71,12 +98,17 @@ class PickAirportActivity : AppCompatActivity() {
             .putString("history", historyList.joinToString(";")).apply()
     }
     private fun separateData(choice:String){
-
+        println(choiceList.size)
+        var idx=choiceList.indexOf(choice)
+        for(p in choiceList){
+            println(p)
+        }
+        airporticao=icaoList[idx]
     }
     private fun setAdapter(){
         val airport = findViewById<AutoCompleteTextView>(R.id.atxt_aiport)
-
-        val adapter = Test(
+        println(choiceList.size)
+        val adapter = AutoSuggestAdapter(
             this@PickAirportActivity,
             android.R.layout.simple_list_item_1,
             choiceList
@@ -111,7 +143,6 @@ class PickAirportActivity : AppCompatActivity() {
                 icaoList.add(airport.icao)
             }
             choiceList=list
-            println("done "+choiceList[0])
             setAdapter()
         }
 

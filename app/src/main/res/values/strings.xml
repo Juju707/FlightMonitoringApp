@@ -22,4 +22,7 @@
     <string name="enter_your_password">Enter your password:</string>
     <string name="enter_your_username">Enter your username:</string>
     <string name="repeat_password">Repeat password:</string>
+    <string name="title_activity_flights_by_airport">FlightsByAirport</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
 </resources>

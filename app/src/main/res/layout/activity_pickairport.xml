@@ -14,19 +14,14 @@
             android:fontFamily="@font/alegreya"
             android:layout_marginTop="80dp" app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintHorizontal_bias="0.495"/>
-    <ScrollView
+    <ListView
             android:layout_width="401dp"
             android:layout_height="314dp" android:layout_marginEnd="1dp"
             android:fillViewport="true"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="1dp" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="1dp" android:id="@+id/scview_lastairports">
-        <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-        </LinearLayout>
-    </ScrollView>
+    </ListView>
     <Button
             android:text="@string/search"
             android:layout_width="142dp"

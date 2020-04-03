@@ -1,7 +1,6 @@
 package com.jujulad.skynetapp.airportFlights
 
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
@@ -15,12 +14,12 @@ class FlightsByAirportActivity : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_pickairport)
+        setContentView(R.layout.activity_flightsbyairport)
         val mViewPager = findViewById<ViewPager>(R.id.container)
         setupViewPager(mViewPager)
 
-        val tabLayout = findViewById<View>(R.id.tabs) as TabLayout
-        tabLayout.setupWithViewPager(mViewPager)
+        val tabs: TabLayout = findViewById(R.id.tabs)
+        tabs.setupWithViewPager(mViewPager)
     }
     private fun setupViewPager(viewPager: ViewPager) {
         val adapter = TabAdapter(supportFragmentManager)
