@@ -21,12 +21,9 @@ class MainActivity : AppCompatActivity() {
 
 
         val previouslyStarted = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
-            .getBoolean("isFirstRun", true)
-        if (previouslyStarted) {
+            .getString("user", "")
+        if (previouslyStarted == "")
             showLogin()
-            getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
-                .putBoolean("isFirstRun", false).apply()
-        }
 
         grantPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
         grantPermission(Manifest.permission.ACCESS_FINE_LOCATION)

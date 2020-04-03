@@ -38,7 +38,7 @@ class SigninActivity : AppCompatActivity() {
                         if (up.containsKey(key) && up[key] == password) warning.visibility = View.VISIBLE
                         else {
                             if (password != null) {
-                                getSharedPreferences("PREFERENCE", MODE_PRIVATE).getString("user", key)
+                                getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putString("user", key).apply()
                                 db.collection("users").document(key).set(
                                     mapOf(
                                         "flights" to mapOf<String, String>(),

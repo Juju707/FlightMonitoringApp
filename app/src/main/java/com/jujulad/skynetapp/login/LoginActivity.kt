@@ -37,7 +37,7 @@ class LoginActivity : AppCompatActivity() {
                         val key = username.text.toString()
                         val pass = Encrypt.encrypt(password.text.toString())
                         if (up.containsKey(key) && up[key] == pass) {
-                            getSharedPreferences("PREFERENCE", MODE_PRIVATE).getString("user", key)
+                            getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putString("user", key).apply()
                             val intent = Intent(this, MainActivity::class.java)
                             startActivity(intent)
                             finish()
