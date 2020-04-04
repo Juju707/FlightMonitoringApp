@@ -37,10 +37,17 @@ class FlightsNearbyActivity : AppCompatActivity() {
         setContentView(R.layout.activity_flightsnearby)
         val searchBtn = findViewById<Button>(R.id.btn_search)
         currentLocation = findViewById(R.id.txt_current_coordinates)
+        val rad = findViewById<EditText>(R.id.num_radius)
+
         val nearby = findViewById<TextView>(R.id.txt_radius)
-        nearby.text = getString(R.string.displaying_list, offset)
+        nearby.text = getString(R.string.displaying_list)
 
         searchBtn.setOnClickListener {
+            if (rad.text.toString() == "" || rad.text.toString().toDoubleOrNull() == null || rad.text.toString().toDouble() < 0.0) {
+                offset = 100.0
+                rad.setText("$offset", TextView.BufferType.EDITABLE)
+            }
+
             location = getCurrentLocation()
             if (location != null) currentLocation.text =
                 getString(R.string.current_loc, location!!.latitude, location!!.longitude)
