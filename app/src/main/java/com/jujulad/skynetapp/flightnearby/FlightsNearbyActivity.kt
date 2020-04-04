@@ -20,7 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.jujulad.skynetapp.MapsActivity
 import com.jujulad.skynetapp.R
 import com.jujulad.skynetapp.dataclasses.Flight
-import com.jujulad.skynetapp.dataclasses.airportData
+import com.jujulad.skynetapp.dataclasses.AirportData
 import com.jujulad.skynetapp.httpRequest.HttpGetRequest
 import org.json.JSONObject
 import java.io.Serializable
@@ -98,14 +98,14 @@ class FlightsNearbyActivity : AppCompatActivity() {
         Toast.makeText(applicationContext, "I found ${filteredFlight.size} flights nearby", Toast.LENGTH_LONG).show()
     }
 
-    private fun airportJSON(): MutableList<airportData> {
+    private fun airportJSON(): MutableList<AirportData> {
         val text = application.assets.open("airports.json").bufferedReader().use { it.readText() }
         val json = JSONObject(text)
-        val airports = mutableListOf<airportData>()
+        val airports = mutableListOf<AirportData>()
         json.keys().forEach {
             val row = JSONObject(json[it].toString())
             airports.add(
-                airportData(
+                AirportData(
                     row.getString("icao"),
                     row.getString("iata"),
                     row.getString("name"),

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SkyNetApp</string>
+    <string name="app_name">AvaApp</string>
     <string name="password">Password</string>
     <string name="sign_in">Sign In</string>
     <string name="log_in">Log In</string>

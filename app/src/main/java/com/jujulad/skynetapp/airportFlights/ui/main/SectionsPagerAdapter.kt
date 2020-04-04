@@ -1,12 +1,19 @@
 package com.jujulad.skynetapp.airportFlights.ui.main
 
 import android.content.Context
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.ListView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.jujulad.skynetapp.R
 import com.jujulad.skynetapp.airportFlights.ArrivalsFragment
 import com.jujulad.skynetapp.airportFlights.DeparturesFragment
+import com.jujulad.skynetapp.dataclasses.FlightData
+
 
 private val TAB_TITLES = arrayOf(
     R.string.tab_text_1,
@@ -38,7 +45,7 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) : 
     }
 
     override fun getCount(): Int {
-        // Show 2 total pages.
         return 2
     }
+
 }

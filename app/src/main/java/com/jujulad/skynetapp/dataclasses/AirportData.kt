@@ -1,6 +1,6 @@
 package com.jujulad.skynetapp.dataclasses
 
-data class airportData(
+data class AirportData(
     val icao: String,
     val iata: String,
     val name: String,

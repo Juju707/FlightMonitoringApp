@@ -7,6 +7,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import com.google.type.LatLng
 import com.jujulad.skynetapp.dataclasses.Flight
 
 
@@ -54,7 +55,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             val marker = MarkerOptions().position(l).title(it.markerInfo())
             marker.flat(true)
             //marker
-            mMap.addMarker(marker).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.plane))
+            //mMap.addMarker(marker).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pl))
         }
     }
 

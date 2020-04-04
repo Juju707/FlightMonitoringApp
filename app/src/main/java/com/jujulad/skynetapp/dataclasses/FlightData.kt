@@ -10,9 +10,9 @@ data class FlightData(
     val dep_icao: String = "",
     val dep_time: String = "",
     val arr_airport: String = "",
-    val arr_time: String = "",
     val arr_iata: String = "",
     val arr_icao: String = "",
+    val arr_time: String = "",
     val airline: String = "",
     val lat: Double? = null,
     val lon: Double? = null,
@@ -26,6 +26,7 @@ data class Flight(
 ) : Serializable {
     override fun toString(): String =
         "$aircraft; ${seen.last()["dep_airport"]} -> ${seen.last()["arr_airport"]}; seen: ${seen.size}"
+
 
     fun markerInfo(): String =
         "$aircraft, ${seen.last()["dep_airport"]} -> ${seen.last()["arr_airport"]}"
