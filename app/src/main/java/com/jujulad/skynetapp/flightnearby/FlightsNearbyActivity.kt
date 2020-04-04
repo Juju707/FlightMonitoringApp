@@ -3,11 +3,13 @@ package com.jujulad.skynetapp.flightnearby
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -78,13 +80,12 @@ class FlightsNearbyActivity : AppCompatActivity() {
     }
 
     private fun airportJSON(): MutableList<airportData> {
-
-        var text = application.assets.open("airports.json").bufferedReader().use { it.readText() }
-        var json = JSONObject(text)
-        var airports = mutableListOf<airportData>()
-        for (key in json.keys()) {
-            val row = JSONObject(json.get(key).toString())
-            var airport =
+        val text = application.assets.open("airports.json").bufferedReader().use { it.readText() }
+        val json = JSONObject(text)
+        val airports = mutableListOf<airportData>()
+        json.keys().forEach {
+            val row = JSONObject(json[it].toString())
+            airports.add(
                 airportData(
                     row.getString("icao"),
                     row.getString("iata"),
@@ -96,9 +97,17 @@ class FlightsNearbyActivity : AppCompatActivity() {
                     row.getString("lat"),
                     row.getString("lon")
                 )
-            airports.add(airport)
+            )
         }
         return airports
+    }
+
+    fun onItemClick(l: AdapterView<*>, v: View, position: Int, id: Long) {
+        val intent = Intent()
+        intent.setClass(this, NearbyDetailsActivity::class.java)
+        intent.putExtra("position", position)
+        intent.putExtra("id", id)
+        startActivity(intent)
     }
 
     private fun updateDatabase(flights: List<Flight>) {
@@ -139,6 +148,11 @@ class FlightsNearbyActivity : AppCompatActivity() {
         val flightsList = flights.map { it.toString() }.toTypedArray()
         val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, flightsList)
         list.adapter = adapter
+        list.setOnItemClickListener { _, _, i, _ ->
+            val intent = Intent(this, NearbyDetailsActivity::class.java)
+            intent.putExtra("info", flights[i].fullInfo())
+            startActivity(intent)
+        }
     }
 
     private fun getCurrentLocation(): Location? {

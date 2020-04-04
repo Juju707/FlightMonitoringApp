@@ -9,8 +9,7 @@
     <string name="what_do_you_wish_to_check">What do you wish to check?</string>
     <string name="check_flights_nearby">Check flights nearby</string>
     <string name="get_flights_from_the_airport">Get flights from the airport</string>
-    <string name="displaying_list_of_planes_in_bounding_box_declared_as">Displaying list of planes in bounding box
-        declared as:
+    <string name="displaying_list_of_planes_in_bounding_box_declared_as">Displaying list of planes in radius:
     </string>
     <string name="country">Country</string>
     <string name="state">State</string>

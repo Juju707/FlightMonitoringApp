@@ -34,6 +34,7 @@
         <activity android:name=".airportFlights.FlightsByAirportActivity"/>
         <activity android:name=".flightnearby.FlightsNearbyActivity"/>
         <activity android:name=".airportFlights.PickAirportActivity"/>
+        <activity android:name=".flightnearby.NearbyDetailsActivity"/>
 
         <meta-data
                 android:name="preloaded_fonts"

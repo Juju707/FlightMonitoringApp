@@ -24,4 +24,13 @@ data class Flight(
 ) {
     override fun toString(): String =
         "$aircraft; ${seen.last()["dep_airport"]} -> ${seen.last()["arr_airport"]}; seen: ${seen.size}"
+
+    fun fullInfo(): String =
+        """
+                |$aircraft
+                |seen: ${seen.size}:
+                |${seen.joinToString("") { s ->
+            "${s["time"]};\n ${s["dep_airport"]} -> ${s["arr_airport"]}; \n ${s["lat"]}, ${s["lon"]} \n *** \n"
+        }}
+            """.trimMargin()
 }
