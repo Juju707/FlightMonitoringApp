@@ -1,3 +1,5 @@
+@file:Suppress("UNCHECKED_CAST")
+
 package com.jujulad.skynetapp.flightnearby
 
 import android.Manifest
@@ -9,7 +11,6 @@ import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -36,18 +37,16 @@ class FlightsNearbyActivity : AppCompatActivity() {
         setContentView(R.layout.activity_flightsnearby)
         val searchBtn = findViewById<Button>(R.id.btn_search)
         currentLocation = findViewById(R.id.txt_current_coordinates)
-        val nearby = findViewById<TextView>(R.id.txt_bbcoordinates)
-        nearby.text = "Radius : ${if (offset == Double.MAX_VALUE) "whole word!" else offset} km"
+        val nearby = findViewById<TextView>(R.id.txt_radius)
+        nearby.text = getString(R.string.displaying_list, offset)
+
         searchBtn.setOnClickListener {
             location = getCurrentLocation()
             if (location != null) currentLocation.text =
-                "Current location: ${location!!.latitude}; ${location!!.longitude}"
-            else currentLocation.text = "Cannot get your location."
+                getString(R.string.current_loc, location!!.latitude, location!!.longitude)
+            else currentLocation.text = getString(R.string.no_loc)
             val url2 =
                 "https://aviation-edge.com/v2/public/flights?key=a32eb8-8cdda7&lat=${location!!.latitude}&lng=${location!!.longitude}&distance=$offset"
-
-//            val url =
-//                "http://api.aviationstack.com/v1/flights?access_key=a2130ee26fddacb7c83f29e0f0f33c68&flight_status=active"
             val thread = HttpGetRequest { printFlight(it) }
             thread.execute(url2)
         }
@@ -102,14 +101,6 @@ class FlightsNearbyActivity : AppCompatActivity() {
         return airports
     }
 
-    fun onItemClick(l: AdapterView<*>, v: View, position: Int, id: Long) {
-        val intent = Intent()
-        intent.setClass(this, NearbyDetailsActivity::class.java)
-        intent.putExtra("position", position)
-        intent.putExtra("id", id)
-        startActivity(intent)
-    }
-
     private fun updateDatabase(flights: List<Flight>) {
         val user = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getString("user", "") ?: ""
         db.collection("users").document(user).get()
@@ -159,31 +150,28 @@ class FlightsNearbyActivity : AppCompatActivity() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
             != PackageManager.PERMISSION_GRANTED
         ) {
-            currentLocation.text = "Grant permissions and click search again!"
+            currentLocation.text = getString(R.string.grant_perm)
             grantPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
         }
         if (!isLocationEnabled()) {
-            currentLocation.text = "Enable location and click search again!"
+            currentLocation.text = getString(R.string.enable_loc)
             return null
         }
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
             == PackageManager.PERMISSION_GRANTED
-        ) {
-            try {
-                val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-                return locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-            } catch (ex: Exception) {
-                ex.printStackTrace()
-            }
-
+        ) try {
+            val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            return locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+        } catch (ex: Exception) {
+            ex.printStackTrace()
         }
+
         return null
     }
 
     private fun grantPermission(permission: String) {
-        if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED)
             ActivityCompat.requestPermissions(this, arrayOf(permission), 1)
-        }
     }
 
     private fun isLocationEnabled(): Boolean {

@@ -19,11 +19,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
-        val previouslyStarted = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
-            .getString("user", "")
-        if (previouslyStarted == "")
-            showLogin()
+        val previouslyStarted = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getString("user", "")
+        if (previouslyStarted == "") showLogin()
 
         grantPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
         grantPermission(Manifest.permission.ACCESS_FINE_LOCATION)
@@ -50,10 +47,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun grantPermission(permission: String) {
-        if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED)
             ActivityCompat.requestPermissions(this, arrayOf(permission), 1)
-        }
     }
-
 
 }

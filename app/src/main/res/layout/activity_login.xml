@@ -57,7 +57,7 @@
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintHorizontal_bias="1.0"
             android:contentDescription="@string/opensky_logo"/>
     <TextView
-            android:text="Login data not correct!"
+            android:text="@string/login_data_not_correct"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/txt_waring"
             app:layout_constraintBottom_toTopOf="@+id/btn_login"

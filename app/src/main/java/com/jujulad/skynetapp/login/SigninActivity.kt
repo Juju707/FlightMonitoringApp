@@ -27,7 +27,9 @@ class SigninActivity : AppCompatActivity() {
         val pass2 = findViewById<EditText>(R.id.txt_password2)
         val warning = findViewById<TextView>(R.id.txt_waring)
         val sign_btn = findViewById<Button>(R.id.sign_btn)
+
         warning.visibility = View.INVISIBLE
+
         sign_btn.setOnClickListener {
             if (checkData(username.text.toString(), pass.text.toString(), pass2.text.toString())) {
                 db.collection("users").get()
