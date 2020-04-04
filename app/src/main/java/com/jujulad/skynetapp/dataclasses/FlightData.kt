@@ -23,9 +23,12 @@ data class FlightData(
 data class Flight(
     val aircraft: String,
     val seen: MutableList<Map<String, Any>>
-) {
+) : Serializable {
     override fun toString(): String =
         "$aircraft; ${seen.last()["dep_airport"]} -> ${seen.last()["arr_airport"]}; seen: ${seen.size}"
+
+    fun markerInfo(): String =
+        "$aircraft, ${seen.last()["dep_airport"]} -> ${seen.last()["arr_airport"]}"
 
     fun fullInfo(): String =
         """

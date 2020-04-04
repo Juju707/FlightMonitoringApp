@@ -11,16 +11,19 @@ import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.firebase.firestore.FirebaseFirestore
+import com.jujulad.skynetapp.MapsActivity
 import com.jujulad.skynetapp.R
 import com.jujulad.skynetapp.dataclasses.Flight
 import com.jujulad.skynetapp.dataclasses.airportData
 import com.jujulad.skynetapp.httpRequest.HttpGetRequest
 import org.json.JSONObject
+import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -38,7 +41,8 @@ class FlightsNearbyActivity : AppCompatActivity() {
         val searchBtn = findViewById<Button>(R.id.btn_search)
         currentLocation = findViewById(R.id.txt_current_coordinates)
         val rad = findViewById<EditText>(R.id.num_radius)
-
+        val showCurrent = findViewById<Button>(R.id.btn_show_map)
+        showCurrent.visibility = View.INVISIBLE
         val nearby = findViewById<TextView>(R.id.txt_radius)
         nearby.text = getString(R.string.displaying_list)
 
@@ -82,6 +86,15 @@ class FlightsNearbyActivity : AppCompatActivity() {
                     )
                 }
         updateDatabase(filteredFlight)
+        val showCurrent = findViewById<Button>(R.id.btn_show_map)
+        showCurrent.visibility = View.VISIBLE
+        showCurrent.setOnClickListener {
+            val intent = Intent(this, MapsActivity::class.java)
+            intent.putExtra("loc", "${location?.latitude ?: 0.0};${location?.longitude ?: 0.0}")
+            intent.putExtra("flights", filteredFlight as Serializable)
+            intent.putExtra("radius", offset * 100)
+            startActivity(intent)
+        }
         Toast.makeText(applicationContext, "I found ${filteredFlight.size} flights nearby", Toast.LENGTH_LONG).show()
     }
 

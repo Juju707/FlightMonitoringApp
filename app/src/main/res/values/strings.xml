@@ -19,6 +19,7 @@
     <string name="aiport">Aiport</string>
     <string name="date">Date</string>
     <string name="search">Search</string>
+    <string name="show_map">Show current on map.</string>
     <string name="last_searches">Last searches:</string>
     <string name="showing_flights_for">Showing flights for:</string>
     <string name="enter_your_password">Enter your password:</string>
@@ -29,4 +30,5 @@
     <string name="tab_text_2">Tab 2</string>
     <string name="login_data_not_correct">Login data not correct!</string>
     <string name="data_not_correct">Data not correct!</string>
+    <string name="title_activity_maps">Map</string>
 </resources>
