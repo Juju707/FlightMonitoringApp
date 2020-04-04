@@ -4,7 +4,6 @@ package com.jujulad.skynetapp.airportFlights
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
-import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
@@ -13,12 +12,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.FirebaseFirestore
 import com.jujulad.skynetapp.R
 import com.jujulad.skynetapp.adapters.AutoSuggestAdapter
-import com.jujulad.skynetapp.dataclasses.Flight
 import com.jujulad.skynetapp.dataclasses.airportData
 import com.jujulad.skynetapp.httpRequest.HttpGetRequest
 import org.json.JSONObject
 import java.io.Serializable
-import java.util.*
 
 
 class PickAirportActivity : AppCompatActivity() {
@@ -68,7 +65,7 @@ class PickAirportActivity : AppCompatActivity() {
 
     }
     private fun getArrList(r: HttpGetRequest) {
-        //bundle.putSerializable("arrivals",r.getFlightsList() as Serializable)
+        bundle.putSerializable("arrivals", r.getFlightsList() as Serializable)
         val intent = Intent(this, FlightsByAirport::class.java)
         intent.putExtras(bundle)
         startActivity(intent)

@@ -1,15 +1,13 @@
 package com.jujulad.skynetapp.airportFlights
 
 import android.os.Bundle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.tabs.TabLayout
-import androidx.viewpager.widget.ViewPager
 import androidx.appcompat.app.AppCompatActivity
-import android.view.Menu
-import android.view.MenuItem
+import androidx.viewpager.widget.ViewPager
+import com.google.android.material.tabs.TabLayout
 import com.jujulad.skynetapp.R
 import com.jujulad.skynetapp.airportFlights.ui.main.SectionsPagerAdapter
+import com.jujulad.skynetapp.dataclasses.FlightData
+
 
 class FlightsByAirport : AppCompatActivity() {
 
@@ -21,6 +19,8 @@ class FlightsByAirport : AppCompatActivity() {
         viewPager.adapter = sectionsPagerAdapter
         val tabs: TabLayout = findViewById(R.id.tabs)
         tabs.setupWithViewPager(viewPager)
-
+        val bundle = intent.extras
+        val a = bundle?.getSerializable("arrivals") as List<FlightData>
+        a.forEach { println(it.aircraft) }
     }
 }

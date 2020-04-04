@@ -1,5 +1,7 @@
 package com.jujulad.skynetapp.dataclasses
 
+import java.io.Serializable
+
 data class FlightData(
     val flight_date: String = "",
     val flight_status: String = "",
@@ -16,7 +18,7 @@ data class FlightData(
     val lon: Double? = null,
     val is_ground: Boolean? = null,
     val aircraft: String? = null
-)
+) : Serializable
 
 data class Flight(
     val aircraft: String,
