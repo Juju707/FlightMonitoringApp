@@ -2,6 +2,8 @@ package com.jujulad.skynetapp.httpRequest
 
 import android.os.AsyncTask
 import com.jujulad.skynetapp.dataclasses.FlightData
+import org.json.JSONArray
+import org.json.JSONException
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStream
@@ -48,7 +50,7 @@ class HttpGetRequest(
 
     override fun onPostExecute(result: String?) {
         afterAction.invoke(this)
-        println(flights[0])
+        //println(flights[0])
     }
 
     override fun onCancelled() {
@@ -80,13 +82,44 @@ fun streamToString(inputStream: InputStream): String {
 }
 
 fun getJSONflightData(vararg values: String?): MutableList<FlightData> {
-    val json = JSONObject(values[0])
+
     val flights = mutableListOf<FlightData>()
-    val array = json.getJSONArray("data")
+    var avstack = true
+    val array = try {
+        val json = JSONObject(values[0])
+        json.getJSONArray("data")
+    } catch (e: JSONException) {
+        avstack = false
+        JSONArray(values[0])
+    }
     for (i in 0 until array.length()) {
         val row = JSONObject(array.get(i).toString())
-        val flight = if (row.getString("live") == "null")
-            FlightData(
+        println(row)
+        if (!avstack) {
+            val f = FlightData(
+                dep_airport = row.getJSONObject("departure").getString("iataCode"),
+                arr_airport = row.getJSONObject("arrival").getString("iataCode"),
+                lat = row.getJSONObject("geography").getDouble("latitude"),
+                lon = row.getJSONObject("geography").getDouble("longitude"),
+                aircraft = row.getJSONObject("aircraft").getString("icaoCode")
+            )
+            flights.add(f)
+        } else {
+            val flight = if (row.getString("live") == "null")
+                FlightData(
+                    row.getString("flight_date"),
+                    row.getString("flight_status"),
+                    row.getJSONObject("departure").getString("airport"),
+                    row.getJSONObject("departure").getString("iata"),
+                    row.getJSONObject("departure").getString("icao"),
+                    row.getJSONObject("departure").getString("estimated"),
+                    row.getJSONObject("arrival").getString("airport"),
+                    row.getJSONObject("arrival").getString("iata"),
+                    row.getJSONObject("arrival").getString("icao"),
+                    row.getJSONObject("arrival").getString("estimated"),
+                    row.getJSONObject("airline").getString("name")
+                )
+            else FlightData(
                 row.getString("flight_date"),
                 row.getString("flight_status"),
                 row.getJSONObject("departure").getString("airport"),
@@ -97,28 +130,16 @@ fun getJSONflightData(vararg values: String?): MutableList<FlightData> {
                 row.getJSONObject("arrival").getString("iata"),
                 row.getJSONObject("arrival").getString("icao"),
                 row.getJSONObject("arrival").getString("estimated"),
-                row.getJSONObject("airline").getString("name")
+                row.getJSONObject("airline").getString("name"),
+                row.getJSONObject("live").getDouble("latitude"),
+                row.getJSONObject("live").getDouble("longitude"),
+                row.getJSONObject("live").getBoolean("is_ground"),
+                row.getJSONObject("aircraft").getString("iata")
             )
-        else FlightData(
-            row.getString("flight_date"),
-            row.getString("flight_status"),
-            row.getJSONObject("departure").getString("airport"),
-            row.getJSONObject("departure").getString("iata"),
-            row.getJSONObject("departure").getString("icao"),
-            row.getJSONObject("departure").getString("estimated"),
-            row.getJSONObject("arrival").getString("airport"),
-            row.getJSONObject("arrival").getString("iata"),
-            row.getJSONObject("arrival").getString("icao"),
-            row.getJSONObject("arrival").getString("estimated"),
-            row.getJSONObject("airline").getString("name"),
-            row.getJSONObject("live").getDouble("latitude"),
-            row.getJSONObject("live").getDouble("longitude"),
-            row.getJSONObject("live").getBoolean("is_ground"),
-            row.getJSONObject("aircraft").getString("iata")
-        )
-        flights.add(flight)
-
+            flights.add(flight)
+        }
     }
+
     return flights
 }
 
