@@ -4,12 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ListAdapter
 import android.widget.ListView
 import androidx.fragment.app.Fragment
 import com.jujulad.skynetapp.R
 import com.jujulad.skynetapp.dataclasses.FlightData
+
 
 class ArrivalsFragment : Fragment() {
     override fun onCreateView(
@@ -20,6 +19,14 @@ class ArrivalsFragment : Fragment() {
         return root
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        val a = activity as FlightsByAirportActivity
+        val arrivals = a.changeData(a.intent.extras?.getSerializable("arrivals") as MutableList<FlightData>)
+        a.findViewById<ListView>(R.id.list_arrivals)
+        a.updateList(arrivals, a.findViewById(R.id.list_arrivals))
+    }
 
 
     companion object {

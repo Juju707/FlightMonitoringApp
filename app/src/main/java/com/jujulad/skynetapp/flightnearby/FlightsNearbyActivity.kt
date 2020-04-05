@@ -44,8 +44,11 @@ class FlightsNearbyActivity : AppCompatActivity() {
         showCurrent.visibility = View.INVISIBLE
         val nearby = findViewById<TextView>(R.id.txt_radius)
         nearby.text = getString(R.string.displaying_list)
+        val pb = findViewById<ProgressBar>(R.id.pb_progressbar)
+        pb.visibility = View.INVISIBLE
         searchBtn.setOnClickListener {
             try {
+                pb.visibility = View.VISIBLE
                 location = getCurrentLocation()
                 if (location != null) currentLocation.text =
                     getString(R.string.current_loc, location!!.latitude, location!!.longitude)
@@ -88,7 +91,10 @@ class FlightsNearbyActivity : AppCompatActivity() {
                 }
         updateDatabase(filteredFlight)
         val showCurrent = findViewById<Button>(R.id.btn_show_map)
+        val pb = findViewById<ProgressBar>(R.id.pb_progressbar)
+        pb.visibility = View.INVISIBLE
         showCurrent.visibility = View.VISIBLE
+
         showCurrent.setOnClickListener {
             val intent = Intent(this, MapsActivity::class.java)
             intent.putExtra("loc", "${location?.latitude ?: 0.0};${location?.longitude ?: 0.0}")
