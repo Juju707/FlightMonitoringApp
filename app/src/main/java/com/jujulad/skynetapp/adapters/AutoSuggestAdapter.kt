@@ -21,6 +21,7 @@ class AutoSuggestAdapter(
         tempItems = ArrayList(items)
         suggestions = ArrayList()
     }
+
     //Pobiera dane z aktualnego widoku (np. tekst z textView)
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var view = convertView
@@ -44,6 +45,7 @@ class AutoSuggestAdapter(
         override fun convertResultToString(resultValue: Any?): CharSequence {
             return resultValue as String
         }
+
         //Przefiltruj wyniki. Wrzuć do listy wyniki które zawierają w sobie pobrany wcześniej tekst
         override fun performFiltering(constraint: CharSequence?): FilterResults {
             return if (constraint != null) {
@@ -62,6 +64,7 @@ class AutoSuggestAdapter(
                 FilterResults()
             }
         }
+
         //Wyświetl wyniki filtrowania w wybrany sposób (np. dropdown list)
         override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
             val filterList: List<String> =
@@ -76,7 +79,6 @@ class AutoSuggestAdapter(
         }
 
     }
-
 
 
 }

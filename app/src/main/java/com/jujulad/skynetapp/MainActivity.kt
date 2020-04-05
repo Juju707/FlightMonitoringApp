@@ -12,13 +12,15 @@ import com.jujulad.skynetapp.airportFlights.PickAirportActivity
 import com.jujulad.skynetapp.flightnearby.FlightsNearbyActivity
 import com.jujulad.skynetapp.login.LoginActivity
 
-
+//Głowna aktywność. Sprawdza pozwolenia na internet oraz lokalizację.
+//Pozwala na przejście do wyszukiwania lotów po lotniskach bądź do przeglądania lotów w pobliżu.
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //Jeśli nie ma zalogowanego użytkownika aplikacja przenosi do ekranu logowania.
         val previouslyStarted = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getString("user", "")
         if (previouslyStarted == "") showLogin()
 
@@ -40,12 +42,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    //Otwiera aktywność z logowaniem.
     private fun showLogin() {
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
         finish()
     }
 
+    //Zbiera pozwolenia.
     private fun grantPermission(permission: String) {
         if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED)
             ActivityCompat.requestPermissions(this, arrayOf(permission), 1)

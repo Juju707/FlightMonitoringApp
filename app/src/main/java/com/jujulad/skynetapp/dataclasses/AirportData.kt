@@ -1,4 +1,5 @@
 package com.jujulad.skynetapp.dataclasses
+
 //Klasa dla trzymania danych o lotnisku
 data class AirportData(
     val icao: String,

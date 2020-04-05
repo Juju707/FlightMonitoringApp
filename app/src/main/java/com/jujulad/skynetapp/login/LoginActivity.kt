@@ -15,7 +15,7 @@ import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import kotlin.experimental.and
 
-
+//Aktywność pozwalająca na logowanie się istniejącego użytkownika.
 class LoginActivity : AppCompatActivity() {
 
     private val db = FirebaseFirestore.getInstance()
@@ -29,14 +29,17 @@ class LoginActivity : AppCompatActivity() {
         val password = findViewById<EditText>(R.id.txt_password_sign)
         val alert = findViewById<TextView>(R.id.txt_waring)
         alert.visibility = View.INVISIBLE
+        //Po kliknięciu przycisku sprawdza poprawność danych.
         loginBtn.setOnClickListener {
             if (checkData(username.text.toString(), password.text.toString())) {
+                //pobiera listę użytkowników z bazy danych
                 db.collection("users").get()
                     .addOnSuccessListener { docs ->
                         val up = docs.map { it.id to it.data["password"] as String }.toMap()
                         val key = username.text.toString()
                         val pass = Encrypt.encrypt(password.text.toString())
                         if (up.containsKey(key) && up[key] == pass) {
+                            //Jeśli poprawnie zalogowane zapisuje użytkownika i przechodzi do głownej aktywności.
                             getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putString("user", key).apply()
                             val intent = Intent(this, MainActivity::class.java)
                             startActivity(intent)
@@ -48,6 +51,7 @@ class LoginActivity : AppCompatActivity() {
 
         }
 
+        //Otwarcie ekranu tworzenia użytkownika.
         signinBtn.setOnClickListener {
             val intent = Intent(this, SigninActivity::class.java)
             startActivity(intent)
@@ -55,6 +59,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    //Sprawdzenie poprawności danych.
     private fun checkData(username: String, password: String): Boolean {
         if (username == "") return false
         if (username.length < 4) return false

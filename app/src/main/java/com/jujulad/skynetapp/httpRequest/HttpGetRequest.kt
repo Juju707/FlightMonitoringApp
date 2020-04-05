@@ -39,6 +39,7 @@ class HttpGetRequest(
 
         return " "
     }
+
     //Funkcja wykonująca działanie przy postępie, w tym przypadku przy pobraniu informacji z REST API
     override fun onProgressUpdate(vararg result: String?) {
         try {
@@ -48,6 +49,7 @@ class HttpGetRequest(
             ex.printStackTrace()
         }
     }
+
     //Funkcja dla wykonania zdefiniowanej, w deklaracji klasy, funkcji, która ma się wykonać od razu
     // po skończeniu przetwarzasnia polecenia (czyli pobierania i przetwarzania danych o locie)
     override fun onPostExecute(result: String?) {
@@ -56,6 +58,7 @@ class HttpGetRequest(
 
 
 }
+
 //Funkcja dla przetwarzania strumieni przychodzących danych na jeden łańcuch znaków
 fun streamToString(inputStream: InputStream): String {
     val bufferReader = BufferedReader(InputStreamReader(inputStream))
@@ -74,12 +77,14 @@ fun streamToString(inputStream: InputStream): String {
     }
     return result
 }
+
 //Funkcja do zamiany łańcucha znaków na plik JSON, a następnie, w zależności od typu uzyskanych danych,
 // dodanie wszystkich ważnych informacji do obiektów danych, które następnie dodawane są do listy
 fun getJSONflightData(vararg values: String?): MutableList<FlightData> {
 
     val flights = mutableListOf<FlightData>()
-    var avstack = true
+    var avstack = true //Pozwala na rozróżnienie z którego api korzystano
+    //Dane otrzymywane z obu api mają różne struktury po czym można je rozróżnić.
     val array = try {
         val json = JSONObject(values[0])
         json.getJSONArray("data")
@@ -90,6 +95,7 @@ fun getJSONflightData(vararg values: String?): MutableList<FlightData> {
     for (i in 0 until array.length()) {
         val row = JSONObject(array.get(i).toString())
         if (!avstack) {
+            //Pobranie danych o obecnych lotach w promieniu 100km od zadanej lokalizacji.
             val f = FlightData(
                 dep_airport = row.getJSONObject("departure").getString("iataCode"),
                 arr_airport = row.getJSONObject("arrival").getString("iataCode"),

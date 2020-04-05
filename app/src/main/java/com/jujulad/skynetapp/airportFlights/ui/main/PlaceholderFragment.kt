@@ -25,8 +25,7 @@ class PlaceholderFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.tab_disc, container, false)
-        return root
+        return inflater.inflate(R.layout.tab_disc, container, false)
     }
 
     companion object {

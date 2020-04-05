@@ -12,6 +12,7 @@
     <string name="displaying_list">Displaying list of planes in radius : 100 km.</string>
     <string name="current_loc">Current location: %1$f; %2$f</string>
     <string name="no_loc">Cannot get your location.</string>
+    <string name="no_loc_again">Cannot get your location. Click search again.</string>
     <string name="grant_perm">Grant permissions and click search again!</string>
     <string name="enable_loc">Enable location and click search again!</string>
     <string name="country">Country</string>

@@ -4,10 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ListView
 import androidx.fragment.app.Fragment
 import com.jujulad.skynetapp.R
-import com.jujulad.skynetapp.dataclasses.FlightData
 
 //Klasa reprezentująca zakładkę z listą samolotów przylatujących (tab[1])
 class ArrivalsFragment : Fragment() {
@@ -15,9 +13,9 @@ class ArrivalsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.tab_arrivals, container, false)
-        return root
+        return inflater.inflate(R.layout.tab_arrivals, container, false)
     }
+
     companion object {
         private const val TAG = "ArrivalsFragment"
     }

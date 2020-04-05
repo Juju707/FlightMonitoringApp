@@ -1,6 +1,7 @@
 package com.jujulad.skynetapp.dataclasses
 
 import java.io.Serializable
+
 //Klasa do trzymania danych o szczegółach lotu
 data class FlightData(
     val flight_date: String = "",
@@ -19,6 +20,7 @@ data class FlightData(
     val is_ground: Boolean? = null,
     val aircraft: String? = null
 ) : Serializable
+
 //Klasa do trzymania danych o ilości natknięcia się na poszczególny samolot
 data class Flight(
     val aircraft: String,

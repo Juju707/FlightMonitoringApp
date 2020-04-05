@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+
 //Klasa tworzona przy TabLayoucie dla kontroli dodawanych zakładek
 class PageViewModel : ViewModel() {
 

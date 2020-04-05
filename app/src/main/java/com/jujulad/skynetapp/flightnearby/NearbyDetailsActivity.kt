@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.jujulad.skynetapp.R
 
+//Aktowność, która pozwala na wyświetlenie informacji na temat lotów, które użytkownik miał w pobliżu.
 class NearbyDetailsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

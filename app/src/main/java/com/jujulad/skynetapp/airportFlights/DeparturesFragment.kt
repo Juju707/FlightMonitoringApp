@@ -12,8 +12,7 @@ class DeparturesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.tab_departures, container, false)
-        return root
+        return inflater.inflate(R.layout.tab_departures, container, false)
     }
 
     companion object {

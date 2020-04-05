@@ -9,7 +9,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.jujulad.skynetapp.dataclasses.Flight
 
-
+//Klasa wyświetlają mapy. Zawiera znacznik pokazujący obecną lokalizację oraz znaczniki oznaczające samoloty.
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
@@ -45,7 +45,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val z = getZoomLevel(circle).toFloat()
         mMap.animateCamera(CameraUpdateFactory.zoomTo(z))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(current))
-
+        //dodanie znaczników dla samolotów
         flights.forEach {
             val l = LatLng(it.seen.last()["lat"] as Double, it.seen.last()["lon"] as Double)
             val marker = MarkerOptions().position(l).title(it.markerInfo())

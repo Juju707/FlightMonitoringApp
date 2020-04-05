@@ -23,7 +23,7 @@ class FlightsByAirportActivity : AppCompatActivity() {
         setContentView(R.layout.activity_flights_by_airport)
         val bundle = intent.extras
         val arrivals = changeData(bundle?.getSerializable("arrivals") as MutableList<FlightData>)
-        val departures = changeData(bundle?.getSerializable("departures") as MutableList<FlightData>)
+        val departures = changeData(bundle.getSerializable("departures") as MutableList<FlightData>)
         val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
         val viewPager: ViewPager = findViewById(R.id.view_pager)
         viewPager.adapter = sectionsPagerAdapter
@@ -33,15 +33,15 @@ class FlightsByAirportActivity : AppCompatActivity() {
 
             // W zależności od wybranej zakładki, nastąpi zmiana fragmentu oraz aktualizacja odpowiedniej listy
             override fun onPageSelected(position: Int) {
-                when(position){
-                    1->{
+                when (position) {
+                    1 -> {
                         val list = findViewById<ListView>(R.id.list_arrivals)
-                        updateList(arrivals,list)
+                        updateList(arrivals, list)
 
                     }
-                   2->{
+                    2 -> {
                         val list = findViewById<ListView>(R.id.list_departures)
-                        updateList(departures,list)
+                        updateList(departures, list)
 
                     }
                 }
@@ -61,16 +61,26 @@ class FlightsByAirportActivity : AppCompatActivity() {
         })
 
     }
+
     //Funkcja dla aktualizacji listy zawierającej dane o lotach
-    private fun updateList(flights: MutableList<String>,list:ListView) {
+    private fun updateList(flights: MutableList<String>, list: ListView) {
         val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, flights)
         list.adapter = adapter
     }
+
     //Funkcja dla zmiany FlightData na łańcuchy znaków z informacjami dla użytkownika( pomijane są takie dane jak np. kody icao)
-    private fun changeData(list:MutableList<FlightData>):MutableList<String>{
-        var newList= mutableListOf<String>()
-        for(flight in list){
-            newList.add(" Flight date: ${flight.flight_date}\n Flight status: ${flight.flight_status}\n Departure airport: ${flight.dep_airport}\n Departure time: ${flight.dep_time.replace("T"," ")}\n Arrival airport=${flight.arr_airport}\n Arrival time: ${flight.arr_time.replace("T", " ")}\n Airline: ${flight.airline}")
+    private fun changeData(list: MutableList<FlightData>): MutableList<String> {
+        val newList = mutableListOf<String>()
+        for (flight in list) {
+            newList.add(
+                " Flight date: ${flight.flight_date}\n Flight status: ${flight.flight_status}\n Departure airport: ${flight.dep_airport}\n Departure time: ${flight.dep_time.replace(
+                    "T",
+                    " "
+                )}\n Arrival airport=${flight.arr_airport}\n Arrival time: ${flight.arr_time.replace(
+                    "T",
+                    " "
+                )}\n Airline: ${flight.airline}"
+            )
         }
         return newList
     }
