@@ -28,9 +28,9 @@ private val TAB_TITLES = arrayOf(
  */
 class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
+    // FunkcjagetItem wywoływana jest do stworzenia instancji przy zmianie wybranego fragmentu
+    // Zwraca wybrany fragment
     override fun getItem(position: Int): Fragment {
-        // getItem is called to instantiate the fragment for the given page.
-        // Return a PlaceholderFragment (defined as a static inner class below).
         when(position){
             0->{var frag=InfoFragment(); return frag}
             1->{var frag=ArrivalsFragment(); return frag}
@@ -38,7 +38,8 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) : 
         }
         return PlaceholderFragment.newInstance(position + 1)
     }
-
+    // Funkcja getPageTitle wywoływana jest do kontroli nazw wybranych fragmentów
+    // Zwraca nazwę zakładki
     override fun getPageTitle(position: Int): CharSequence? {
         when(position){
             0->{return "Disclaimer"}
@@ -47,7 +48,7 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) : 
         }
         return context.resources.getString(TAB_TITLES[position])
     }
-
+    //Funkcja ta zwraca ilość zakładek w TabLayout
     override fun getCount(): Int {
         return 3
     }

@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import com.jujulad.skynetapp.R
 import com.jujulad.skynetapp.dataclasses.FlightData
 
-
+//Klasa reprezentująca zakładkę z listą samolotów przylatujących (tab[1])
 class ArrivalsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

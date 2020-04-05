@@ -17,6 +17,7 @@ import com.jujulad.skynetapp.dataclasses.FlightData
 class FlightsByAirportActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.M)
+    //Pobiearne są dane z poprzedniej aktywności, ustawiany jest odpowiedni adapter i pager dla fragmentów na layoucie z zakładkami
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_flights_by_airport)
@@ -28,11 +29,9 @@ class FlightsByAirportActivity : AppCompatActivity() {
         viewPager.adapter = sectionsPagerAdapter
         val tabs: TabLayout = findViewById(R.id.tabs)
         tabs.setupWithViewPager(viewPager)
-        //viewPager
-        //Na zmianę
         viewPager.addOnPageChangeListener(object : OnPageChangeListener {
-            // This method will be invoked when a new page becomes selected.
 
+            // W zależności od wybranej zakładki, nastąpi zmiana fragmentu oraz aktualizacja odpowiedniej listy
             override fun onPageSelected(position: Int) {
                 when(position){
                     1->{
@@ -62,11 +61,12 @@ class FlightsByAirportActivity : AppCompatActivity() {
         })
 
     }
+    //Funkcja dla aktualizacji listy zawierającej dane o lotach
     private fun updateList(flights: MutableList<String>,list:ListView) {
         val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, flights)
         list.adapter = adapter
     }
-
+    //Funkcja dla zmiany FlightData na łańcuchy znaków z informacjami dla użytkownika( pomijane są takie dane jak np. kody icao)
     private fun changeData(list:MutableList<FlightData>):MutableList<String>{
         var newList= mutableListOf<String>()
         for(flight in list){

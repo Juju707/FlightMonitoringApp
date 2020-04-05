@@ -10,7 +10,7 @@ import android.widget.ListView
 import androidx.fragment.app.Fragment
 import com.jujulad.skynetapp.R
 import com.jujulad.skynetapp.dataclasses.FlightData
-
+//Klasa reprezentująca zakładkę z informacją (tab[0])
 class InfoFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -19,7 +19,6 @@ class InfoFragment : Fragment() {
         val root = inflater.inflate(R.layout.tab_disc, container, false)
         return root
     }
-
 
 
     companion object {

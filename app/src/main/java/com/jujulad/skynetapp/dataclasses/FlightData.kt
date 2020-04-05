@@ -1,7 +1,7 @@
 package com.jujulad.skynetapp.dataclasses
 
 import java.io.Serializable
-
+//Klasa do trzymania danych o szczegółach lotu
 data class FlightData(
     val flight_date: String = "",
     val flight_status: String = "",
@@ -19,18 +19,20 @@ data class FlightData(
     val is_ground: Boolean? = null,
     val aircraft: String? = null
 ) : Serializable
-
+//Klasa do trzymania danych o ilości natknięcia się na poszczególny samolot
 data class Flight(
     val aircraft: String,
     val seen: MutableList<Map<String, Any>>
 ) : Serializable {
+    //Nadpisana funkcja toString
     override fun toString(): String =
         "$aircraft; ${seen.last()["dep_airport"]} -> ${seen.last()["arr_airport"]}; seen: ${seen.size}"
 
-
+    //Funkcja zwracająca informacje dla markera na mapie
     fun markerInfo(): String =
         "$aircraft, ${seen.last()["dep_airport"]} -> ${seen.last()["arr_airport"]}"
 
+    //Funkcja zwracająca pełne informacje o położeniu geograficznym samolotu
     fun fullInfo(): String =
         """
                 |$aircraft

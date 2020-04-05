@@ -11,13 +11,14 @@ import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
 
-
+//Klasa dla pobierania danych asynchronicznie do głównego wątku
 class HttpGetRequest(
     private val afterAction: (r: HttpGetRequest) -> Unit = {}
 ) : AsyncTask<String, String, String>() {
 
     var flights = mutableListOf<FlightData>()
-
+    //Funkacja wykonująca działanie w tle. Jej zadaniem jest połączenie się, pobranie z REST API odpowiedniego pliku JSON w
+    // postaci łancucha znaków a następnie zakończenie połączenia
     override fun doInBackground(vararg urls: String?): String? {
         var urlConnection: HttpURLConnection? = null
 
@@ -38,7 +39,7 @@ class HttpGetRequest(
 
         return " "
     }
-
+    //Funkcja wykonująca działanie przy postępie, w tym przypadku przy pobraniu informacji z REST API
     override fun onProgressUpdate(vararg result: String?) {
         try {
             flights = getJSONflightData(*result)
@@ -47,17 +48,15 @@ class HttpGetRequest(
             ex.printStackTrace()
         }
     }
-
+    //Funkcja dla wykonania zdefiniowanej, w deklaracji klasy, funkcji, która ma się wykonać od razu
+    // po skończeniu przetwarzasnia polecenia (czyli pobierania i przetwarzania danych o locie)
     override fun onPostExecute(result: String?) {
         afterAction.invoke(this)
     }
 
-    override fun onCancelled() {
-
-    }
 
 }
-
+//Funkcja dla przetwarzania strumieni przychodzących danych na jeden łańcuch znaków
 fun streamToString(inputStream: InputStream): String {
     val bufferReader = BufferedReader(InputStreamReader(inputStream))
     var line: String
@@ -75,7 +74,8 @@ fun streamToString(inputStream: InputStream): String {
     }
     return result
 }
-
+//Funkcja do zamiany łańcucha znaków na plik JSON, a następnie, w zależności od typu uzyskanych danych,
+// dodanie wszystkich ważnych informacji do obiektów danych, które następnie dodawane są do listy
 fun getJSONflightData(vararg values: String?): MutableList<FlightData> {
 
     val flights = mutableListOf<FlightData>()
