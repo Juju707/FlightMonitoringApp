@@ -19,8 +19,8 @@ import androidx.core.content.ContextCompat
 import com.google.firebase.firestore.FirebaseFirestore
 import com.jujulad.skynetapp.MapsActivity
 import com.jujulad.skynetapp.R
-import com.jujulad.skynetapp.dataclasses.Flight
 import com.jujulad.skynetapp.dataclasses.AirportData
+import com.jujulad.skynetapp.dataclasses.Flight
 import com.jujulad.skynetapp.httpRequest.HttpGetRequest
 import org.json.JSONObject
 import java.io.Serializable
@@ -40,38 +40,39 @@ class FlightsNearbyActivity : AppCompatActivity() {
         setContentView(R.layout.activity_flightsnearby)
         val searchBtn = findViewById<Button>(R.id.btn_search)
         currentLocation = findViewById(R.id.txt_current_coordinates)
-        val rad = findViewById<EditText>(R.id.num_radius)
         val showCurrent = findViewById<Button>(R.id.btn_show_map)
         showCurrent.visibility = View.INVISIBLE
         val nearby = findViewById<TextView>(R.id.txt_radius)
         nearby.text = getString(R.string.displaying_list)
-
         searchBtn.setOnClickListener {
-            if (rad.text.toString() == "" || rad.text.toString().toDoubleOrNull() == null || rad.text.toString().toDouble() < 0.0) {
-                offset = 100.0
-                rad.setText("$offset", TextView.BufferType.EDITABLE)
-            }
+            try {
+                location = getCurrentLocation()
+                if (location != null) currentLocation.text =
+                    getString(R.string.current_loc, location!!.latitude, location!!.longitude)
+                else currentLocation.text = getString(R.string.no_loc)
 
-            location = getCurrentLocation()
-            if (location != null) currentLocation.text =
-                getString(R.string.current_loc, location!!.latitude, location!!.longitude)
-            else currentLocation.text = getString(R.string.no_loc)
-            val url2 =
-                "https://aviation-edge.com/v2/public/flights?key=a32eb8-8cdda7&lat=${location!!.latitude}&lng=${location!!.longitude}&distance=$offset"
-            val thread = HttpGetRequest { printFlight(it) }
-            thread.execute(url2)
+                val url2 =
+                    "https://aviation-edge.com/v2/public/flights?key=a32eb8-8cdda7&lat=${location!!.latitude}&lng=${location!!.longitude}&distance=$offset"
+                val thread = HttpGetRequest { printFlight(it) }
+                thread.execute(url2)
+            } catch (e: Exception) {
+                currentLocation.text = getString(R.string.no_loc)
+            }
         }
+
     }
 
     @SuppressLint("SimpleDateFormat")
     private fun printFlight(r: HttpGetRequest) {
         val df = SimpleDateFormat("dd-MM-yyyy HH:mm:ss")
+        val flights = if (r.flights.size > 10) r.flights.subList(0, 10) else r.flights
         val filteredFlight =
-            r.flights
+            flights
                 .filter { it.aircraft != null }
                 .map {
-                    val da = airportJSON().firstOrNull { a -> a.iata == it.dep_airport }
-                    val aa = airportJSON().firstOrNull { a -> a.iata == it.arr_airport }
+                    val ar = airportJSON()
+                    val da = ar.firstOrNull { a -> a.iata == it.dep_airport }
+                    val aa = ar.firstOrNull { a -> a.iata == it.arr_airport }
                     Flight(
                         it.aircraft!!,
                         mutableListOf(
@@ -92,10 +93,10 @@ class FlightsNearbyActivity : AppCompatActivity() {
             val intent = Intent(this, MapsActivity::class.java)
             intent.putExtra("loc", "${location?.latitude ?: 0.0};${location?.longitude ?: 0.0}")
             intent.putExtra("flights", filteredFlight as Serializable)
-            intent.putExtra("radius", offset * 100)
             startActivity(intent)
         }
-        Toast.makeText(applicationContext, "I found ${filteredFlight.size} flights nearby", Toast.LENGTH_LONG).show()
+        Toast.makeText(applicationContext, "I found ${filteredFlight.size} / 10 flights nearby", Toast.LENGTH_LONG)
+            .show()
     }
 
     private fun airportJSON(): MutableList<AirportData> {
@@ -128,14 +129,12 @@ class FlightsNearbyActivity : AppCompatActivity() {
                 val pass = doc["password"] as String
                 val flightsInDB = parseMapToFlights((doc["flights"] as List<Map<String, Any>>))
                 val fl = flights.toMutableList()
-
                 fl.forEach { f ->
                     if (flightsInDB.filter { it.aircraft == f.aircraft }.size == 1)
                         flightsInDB.first { it.aircraft == f.aircraft }.seen.add(f.seen.last())
                     else flightsInDB.add(f)
                 }
                 updateList(flightsInDB)
-
                 db.collection("users").document(user).set(mapOf("flights" to flightsInDB, "password" to pass))
                     .addOnSuccessListener { Log.d("Nearby", "Success!") }
                     .addOnFailureListener { e -> Log.w("Nearby", "Error adding document", e) }
@@ -173,6 +172,12 @@ class FlightsNearbyActivity : AppCompatActivity() {
             currentLocation.text = getString(R.string.grant_perm)
             grantPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
         }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            currentLocation.text = getString(R.string.grant_perm)
+            grantPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+        }
         if (!isLocationEnabled()) {
             currentLocation.text = getString(R.string.enable_loc)
             return null
@@ -192,6 +197,7 @@ class FlightsNearbyActivity : AppCompatActivity() {
     private fun grantPermission(permission: String) {
         if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED)
             ActivityCompat.requestPermissions(this, arrayOf(permission), 1)
+
     }
 
     private fun isLocationEnabled(): Boolean {

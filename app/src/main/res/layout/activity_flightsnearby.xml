@@ -32,18 +32,7 @@
             android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="8dp"
             app:layout_constraintStart_toStartOf="parent" android:fontFamily="@font/alegreya" android:textSize="18sp"
             app:layout_constraintHorizontal_bias="0.0"
-            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/num_radius"/>
-    <EditText
-            android:layout_width="251dp"
-            android:layout_height="51dp"
-            android:inputType="numberDecimal"
-            android:ems="10"
-            android:id="@+id/num_radius"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-            app:layout_constraintHorizontal_bias="0.486" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/txt_radius" android:text="100.0" android:textAlignment="center"
-            android:fontFamily="@font/alegreya" android:textSize="18sp"/>
+            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/txt_radius"/>
     <Button
             android:text="@string/search"
             android:layout_width="223dp"

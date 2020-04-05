@@ -18,7 +18,8 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
-            android:usesCleartextTraffic="true">
+            android:usesCleartextTraffic="true"
+            android:screenOrientation="portrait">
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -34,27 +35,30 @@
 
         <activity
                 android:name=".MapsActivity"
+                android:screenOrientation="portrait"
                 android:label="@string/title_activity_maps">
         </activity>
         <activity
                 android:name=".airportFlights.FlightsByAirportActivity"
+                android:screenOrientation="portrait"
                 android:label="@string/title_activity_flights_by_airport"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
                 android:name=".MainActivity"
-                android:theme="@style/Login">
+                android:theme="@style/Login"
+                android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".login.LoginActivity"/>
-        <activity android:name=".login.SigninActivity"/>
-        <activity android:name=".flightnearby.FlightsNearbyActivity"/>
-        <activity android:name=".airportFlights.PickAirportActivity"/>
-        <activity android:name=".flightnearby.NearbyDetailsActivity"/>
+        <activity android:name=".login.LoginActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".login.SigninActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".flightnearby.FlightsNearbyActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".airportFlights.PickAirportActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".flightnearby.NearbyDetailsActivity" android:screenOrientation="portrait"/>
 
         <meta-data
                 android:name="preloaded_fonts"

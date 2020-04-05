@@ -7,7 +7,6 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
-import com.google.type.LatLng
 import com.jujulad.skynetapp.dataclasses.Flight
 
 
@@ -40,29 +39,25 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val flights = intent.getSerializableExtra("flights") as List<Flight>
         val current = LatLng(loc[0].toDouble(), loc[1].toDouble())
         mMap.addMarker(MarkerOptions().position(current).title("Current location."))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(current))
-
-        val radius = intent.getDoubleExtra("rad", 100000.0)
         val circle = mMap.addCircle(
-            CircleOptions().center(current).radius(radius)
+            CircleOptions().center(current).radius(100000.0)
         )
         val z = getZoomLevel(circle).toFloat()
         mMap.animateCamera(CameraUpdateFactory.zoomTo(z))
-
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(current))
 
         flights.forEach {
             val l = LatLng(it.seen.last()["lat"] as Double, it.seen.last()["lon"] as Double)
             val marker = MarkerOptions().position(l).title(it.markerInfo())
             marker.flat(true)
             //marker
-            //mMap.addMarker(marker).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pl))
+            mMap.addMarker(marker).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.plane))
         }
     }
 
-    fun getZoomLevel(circle: Circle): Int {
+    private fun getZoomLevel(circle: Circle): Int {
         val radius = circle.radius
         val scale = radius / 500
         return (16 - Math.log(scale) / Math.log(2.0)).toInt()
-
     }
 }
