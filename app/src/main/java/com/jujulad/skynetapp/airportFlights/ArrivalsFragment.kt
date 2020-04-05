@@ -18,17 +18,6 @@ class ArrivalsFragment : Fragment() {
         val root = inflater.inflate(R.layout.tab_arrivals, container, false)
         return root
     }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        val a = activity as FlightsByAirportActivity
-        val arrivals = a.changeData(a.intent.extras?.getSerializable("arrivals") as MutableList<FlightData>)
-        a.findViewById<ListView>(R.id.list_arrivals)
-        a.updateList(arrivals, a.findViewById(R.id.list_arrivals))
-    }
-
-
     companion object {
         private const val TAG = "ArrivalsFragment"
     }
