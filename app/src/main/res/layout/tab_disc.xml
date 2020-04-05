@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/constraintLayout"
+              android:layout_width="match_parent"
+              android:background="@drawable/main_background"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:layout_gravity="center_vertical"
+              android:gravity="center_horizontal"
+              tools:context=".airportFlights.ui.main.PlaceholderFragment">
+    <ImageView
+            android:src="@drawable/aviationstack_logo_footer"
+            android:layout_width="327dp"
+            android:layout_height="10dp" android:id="@+id/imageView2" android:layout_weight="0.5"/>
+    <TextView
+            android:text="@string/all_data_is_provided_by_aviationstack_we_are_not_responsible_for_any_misinformation_that_canbe_provided_please_choose_your_flight_direction"
+            android:layout_width="335dp"
+            android:layout_height="50dp"
+            android:id="@+id/textView"
+            android:gravity="center_vertical"
+            android:textAlignment="center"
+            android:fontFamily="@font/alegreya"
+            android:textSize="20sp"
+            android:layout_weight="0.5"/>
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/textView5" android:layout_weight="0.5"/>
+</LinearLayout>

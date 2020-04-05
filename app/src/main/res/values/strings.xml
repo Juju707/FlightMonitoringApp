@@ -28,7 +28,12 @@
     <string name="title_activity_flights_by_airport">FlightsByAirport</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
+    <string name="tab_text_3">Tab 3</string>
     <string name="login_data_not_correct">Login data not correct!</string>
     <string name="data_not_correct">Data not correct!</string>
     <string name="title_activity_maps">Map</string>
+    <string name="all_data_is_provided_by_aviationstack_we_are_not_responsible_for_any_misinformation_that_canbe_provided_please_choose_your_flight_direction">
+        All data is provided by Aviationstack, we are not responsible for any misinformation that can be provided. Please
+        choose your flight direction.
+    </string>
 </resources>

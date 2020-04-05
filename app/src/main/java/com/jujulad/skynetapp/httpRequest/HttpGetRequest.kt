@@ -50,15 +50,10 @@ class HttpGetRequest(
 
     override fun onPostExecute(result: String?) {
         afterAction.invoke(this)
-        //println(flights[0])
     }
 
     override fun onCancelled() {
 
-    }
-
-    fun getFlightsList(): MutableList<FlightData> {
-        return flights
     }
 
 }
@@ -94,7 +89,6 @@ fun getJSONflightData(vararg values: String?): MutableList<FlightData> {
     }
     for (i in 0 until array.length()) {
         val row = JSONObject(array.get(i).toString())
-        println(row)
         if (!avstack) {
             val f = FlightData(
                 dep_airport = row.getJSONObject("departure").getString("iataCode"),
